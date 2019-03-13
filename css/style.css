@@ -1,0 +1,51 @@
+
+body  {  	
+	margin: 0;  	
+	padding: 0;  	
+	background: #3399ff;  
+	}  
+#container  {  	
+	margin: 1em auto;  	
+	width: 650px;  	
+	background: #fff;  
+	}    
+#header {background: #CF3;}  
+#mainnav {background: #9F3; }    
+  
+#contents  {  	
+	margin: 1em auto;  	
+	width: 850px;  	
+	background: #fff;  
+	}  
+#menu  {  	
+	float: left;  	
+	margin: 0 0 0 100px;
+	background: #6F9;  
+	}    
+
+
+/* backgruond */
+html, body{
+background: repeat center;
+background-color: #3399ff;
+/*WEBKIT*/
+background-image:
+  /*VERTICAL LINES*/
+  -webkit-gradient(linear, left top, left bottom,
+    color-stop(0, rgba(255,255,255,.4)), color-stop(0.01, rgba(80,85,95,0)), color-stop(0.2, rgba(80,85,95,0)),
+    color-stop(0.2, rgba(255,255,255,.1)), color-stop(0.21, rgba(80,85,95,0)), color-stop(0.4, rgba(80,85,95,0)),
+    color-stop(0.4, rgba(255,255,255,.1)), color-stop(0.41, rgba(80,85,95,0)), color-stop(0.6, rgba(80,85,95,0)),
+    color-stop(0.6, rgba(255,255,255,.1)), color-stop(0.61, rgba(80,85,95,0)), color-stop(0.8, rgba(80,85,95,0)),
+    color-stop(0.8, rgba(255,255,255,.1)), color-stop(0.81, rgba(80,85,95,0)), color-stop(1, rgba(80,85,95,0))
+  ),
+  /*HORIZONTAL LINES*/
+  -webkit-gradient(linear, left top, right top,
+    color-stop(0, rgba(255,255,255,.4)), color-stop(0.01, rgba(80,85,95,0)), color-stop(0.2, rgba(80,85,95,0)),
+    color-stop(0.2, rgba(255,255,255,.1)), color-stop(0.21, rgba(80,85,95,0)), color-stop(0.4, rgba(80,85,95,0)),
+    color-stop(0.4, rgba(255,255,255,.1)), color-stop(0.41, rgba(80,85,95,0)), color-stop(0.6, rgba(80,85,95,0)),
+    color-stop(0.6, rgba(255,255,255,.1)), color-stop(0.61, rgba(80,85,95,0)), color-stop(0.8, rgba(80,85,95,0)),
+    color-stop(0.8, rgba(255,255,255,.1)), color-stop(0.81, rgba(80,85,95,0)), color-stop(1, rgba(80,85,95,0))
+  );
+  /*SET WEBKIT BACKGROUND SIZE*/
+  -webkit-background-size: 100px 100px;
+  

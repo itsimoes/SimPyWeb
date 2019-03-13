@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+ 
+<html>
+	<head>
+
+  		<title>Simpy</title>
+  		
+  		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen"> 
+
+  		<!-- Versão development jQuery 
+  		<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+		--> 
+
+  		<!-- draggable function --> 
+ 		<link rel="stylesheet" href="css/jquery-ui.css">
+ 		<link rel="stylesheet" href="resources/demos/style.css">
+ 		<style>
+  			.draggable1, .draggable2, .draggable3, .draggable4 { width: 50px; height: 50px; padding: 0.5em; } ;  			
+  		</style>
+  		<style>
+  			#droppable { width: 640px; height: 480px; padding: 0.5em; float: left; margin: 0px; }
+  		</style>
+
+  		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  		
+
+	</head>
+
+	<!---->
+
+	<body>
+
+		<h1>Página demonstração</h1>
+    	<h2>Draggable Objects.</h2>		
+
+	    <div id="menu">
+	    	<!-- slots and draggable items -->
+			<div id = "slot1">
+			    <div id="Source" class="draggable1">
+			  		<p><center>Source</center></p>
+				</div>
+			</div>
+			<div id = "slot2">
+				<div id="Queue" class="draggable2">
+			  		<p><center>Queue</center></p>
+				</div>
+			</div>
+			<div id = "slot3">
+				<div id="Fork" class="draggable3">
+			  		<p><center>Fork</center></p>
+				</div>
+			</div>
+			<div id = "slot4">
+				<div id="Exit" class="draggable4">
+			  		<p><center>Exit</center></p>
+				</div>	
+			</div>
+		</div>
+
+		<div id="contents">			
+	 		<div id="droppable" class="ui-widget-header">
+				<p>Drop here</p>
+		</div>
+
+		<script src="js/scripts.js"></script>
+		
+	</body>
+</html>
+

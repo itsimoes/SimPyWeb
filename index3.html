@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simulation</title>
+  <meta name="description" content="A simple logic circuit editor and simulator." />
+    <!-- Copyright 1998-2018 by Northwoods Software Corporation. -->
+    <meta charset="UTF-8">
+    <script src="js/go.js"></script>
+    <script src="js/scripts3.js"></script>
+  </head>
+
+  <body onload="init()" style="background-color:white;" >
+    <div id="sample">
+      <div style="width:100%; white-space:nowrap">
+        <span style="display: inline-block; vertical-align: top; width:100px; ; background-color:white">
+          <div id="palette" style="border: solid 1px black; height: 500px"></div>
+        </span>
+        <span style="display: inline-block; vertical-align: top; width:80%; background-color:white;">
+          <div id="myDiagramDiv" style="border: solid 1px black; height: 500px"></div>
+        </span>
+      </div>
+      
+      <div>
+        <div>
+          <button id="saveModel" onclick="save()">Save</button>
+          <button id="loadModel" onclick="load()">Load</button>
+          Diagram Model saved in JSON format and Python format:
+        </div>
+        <textarea id="mySavedModel" style="width:45%;height:200px" readonly="readonly">
+{ "class": "go.GraphLinksModel",
+  "linkFromPortIdProperty": "fromPort",
+  "linkToPortIdProperty": "toPort",
+  "nodeDataArray": [ 
+{"category":"Input", "key":"Input1", "loc":"-130 -100"},
+{"category":"Output", "key":"Output1", "loc":"170 -100"},
+{"category":"Queue", "key":-3, "loc":"20 -120"}
+ ],
+  "linkDataArray": [ 
+{"from":"Input1", "to":-3, "fromPort":"out", "toPort":"in"},
+{"from":-3, "to":"Output1", "fromPort":"out", "toPort":"in"}
+ ]}
+        </textarea>
+     
+        <textarea id="pythonarchive" style="width:45%;height:200px" readonly="readonly">
+import itertools
+import random
+import simpy
+
+RANDOM_SEED = 42
+SIM_TIME = 120
+queueTime = 3
+queueUsage = 0
+clients = 0
+exits = 0
+arrivalTime = 10
+
+fork = 1
+
+def arrivals(env, arrivalTime):
+
+  global clients
+
+  while True:
+
+    clients += 1
+
+     # Arrivals
+    yield env.timeout(arrivalTime) # Time between arrivals
+    
+    
+     # Queue
+    env.process(queue(env,clients,queues))  
+     
+
+def queue(env,clients,queues) :
+
+  global exits, queueUsage
+  
+  req = queues.request()
+  yield req
+  queueUsage += 1
+  yield env.timeout(queueTime)
+  queues.release(req)
+    
+
+  exits += 1
+
+# Setup and start the simulation
+print('Queue Simulation!')
+random.seed(RANDOM_SEED)
+
+# Create environment and start processes
+env = simpy.Environment()
+queues = simpy.Resource(env, capacity=fork)
+env.process(arrivals(env,arrivalTime))
+
+env.run(until=SIM_TIME)
+
+queuePercentage = 100*queueTime*queueUsage/SIM_TIME
+averageTime = SIM_TIME/exits
+arrivalsTotal = clients/SIM_TIME
+arrivalsPercentage = 100*arrivalsTotal
+clients-=1
+
+# Execute!
+print("Simulation Complete!")
+print("Arrivals: %d" %clients)
+print("Departures: %d" %exits)
+print("Average time per client %d" %averageTime)
+print("Queue Time Percentage: %.1f %%" %queuePercentage)
+        </textarea>
+        <textarea id="pythonOriginal" style="width:45%;height:200px" readonly="readonly" hidden="on">
+import itertools
+import random
+import simpy
+
+RANDOM_SEED = 42
+SIM_TIME = 120
+queueTime = 3
+queueUsage = 0
+clients = 0
+exits = 0
+arrivalTime = 10
+
+fork = 1
+
+def arrivals(env, arrivalTime):
+
+  global clients
+
+  while True:
+
+    clients += 1
+
+     # Arrivals
+    yield env.timeout(arrivalTime) # Time between arrivals
+    
+    
+     # Queue
+    env.process(queue(env,clients,queues))  
+     
+
+def queue(env,clients,queues) :
+
+  global exits, queueUsage
+  
+  req = queues.request()
+  yield req
+  queueUsage += 1
+  yield env.timeout(queueTime)
+  queues.release(req)
+    
+
+  exits += 1
+
+# Setup and start the simulation
+print('Queue Simulation!')
+random.seed(RANDOM_SEED)
+
+# Create environment and start processes
+env = simpy.Environment()
+queues = simpy.Resource(env, capacity=fork)
+env.process(arrivals(env,arrivalTime))
+
+env.run(until=SIM_TIME)
+
+queuePercentage = 100*queueTime*queueUsage/SIM_TIME
+averageTime = SIM_TIME/exits
+arrivalsTotal = clients/SIM_TIME
+arrivalsPercentage = 100*arrivalsTotal
+clients-=1
+
+# Execute!
+print("Simulation Complete!")
+print("Arrivals: %d" %clients)
+print("Departures: %d" %exits)
+print("Average time per client %d" %averageTime)
+print("Queue Time Percentage: %.1f %%" %queuePercentage)
+        </textarea>
+      </div>
+    </div>
+  </body>
+</html>
