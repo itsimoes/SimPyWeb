@@ -32,12 +32,7 @@ def queue(env,clients,queues) :
 
 	global exits, queueUsage
 	
-	req = queues.request()
-	yield req
-	queueUsage += 1
-	yield env.timeout(queueTime)
-	queues.release(req)
-		
+
 
 	exits += 1
 

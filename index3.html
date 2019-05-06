@@ -8,16 +8,27 @@
     <meta charset="UTF-8">
     <script src="js/go.js"></script>
     <script src="js/scripts3.js"></script>
+    <script> 
+      $("#save-button").click(function(){
+
+        var file = new File(["sasas asasas"],
+          {type: "text/plain;charset=utf-8"}
+        ); 
+
+        saveAs(file, "file.txt");
+
+      });
+    </script>
   </head>
 
   <body onload="init()" style="background-color:white;" >
     <div id="sample">
       <div style="width:100%; white-space:nowrap">
         <span style="display: inline-block; vertical-align: top; width:100px; ; background-color:white">
-          <div id="palette" style="border: solid 1px black; height: 500px"></div>
+          <div id="palette" style="border: solid 1px black; height: 300px"></div>
         </span>
         <span style="display: inline-block; vertical-align: top; width:80%; background-color:white;">
-          <div id="myDiagramDiv" style="border: solid 1px black; height: 500px"></div>
+          <div id="myDiagramDiv" style="border: solid 1px black; height: 300px"></div>
         </span>
       </div>
       
@@ -25,9 +36,9 @@
         <div>
           <button id="saveModel" onclick="save()">Save</button>
           <button id="loadModel" onclick="load()">Load</button>
-          Diagram Model saved in JSON format and Python format:
+          Diagram model in Python format:
         </div>
-        <textarea id="mySavedModel" style="width:45%;height:200px" readonly="readonly">
+        <textarea id="mySavedModel" style="width:45%;height:150px" readonly="readonly" hidden="on">
 { "class": "go.GraphLinksModel",
   "linkFromPortIdProperty": "fromPort",
   "linkToPortIdProperty": "toPort",
@@ -42,7 +53,7 @@
  ]}
         </textarea>
      
-        <textarea id="pythonarchive" style="width:45%;height:200px" readonly="readonly">
+        <textarea id="pythonarchive" style="width:45%;height:150px" readonly="readonly">
 import itertools
 import random
 import simpy
@@ -76,19 +87,14 @@ def arrivals(env, arrivalTime):
 def queue(env,clients,queues) :
 
   global exits, queueUsage
-  
-  req = queues.request()
-  yield req
-  queueUsage += 1
-  yield env.timeout(queueTime)
-  queues.release(req)
-    
+      
 
   exits += 1
 
 # Setup and start the simulation
 print('Queue Simulation!')
 random.seed(RANDOM_SEED)
+
 
 # Create environment and start processes
 env = simpy.Environment()
@@ -144,13 +150,7 @@ def arrivals(env, arrivalTime):
 def queue(env,clients,queues) :
 
   global exits, queueUsage
-  
-  req = queues.request()
-  yield req
-  queueUsage += 1
-  yield env.timeout(queueTime)
-  queues.release(req)
-    
+   
 
   exits += 1
 
@@ -178,6 +178,7 @@ print("Departures: %d" %exits)
 print("Average time per client %d" %averageTime)
 print("Queue Time Percentage: %.1f %%" %queuePercentage)
         </textarea>
+        <button id="save-button">Save File</button>
       </div>
     </div>
   </body>

@@ -102,7 +102,7 @@ var green = "#C8DA2B";  // 1 or true
           $(go.Shape, "Circle", shapeStyle(),
             { fill: "#99ccff" }),  // override the default fill (from shapeStyle()) to be red
           $(go.Shape, "Rectangle", portStyle(false),  // the only port
-            { portId: "out", alignment: new go.Spot(1, 0.5) }),
+            { portId: "out", alignment: new go.Spot(1.15, 0.5) }),
           { // if double-clicked, an input node will change its value, represented by the color.
             doubleClick: function (e, obj) {
                 e.diagram.startTransaction("Toggle Input");
@@ -120,11 +120,17 @@ var green = "#C8DA2B";  // 1 or true
         );
 
       var outputTemplate =
-        $(go.Node, "Spot", nodeStyle(),
-          $(go.Shape, "Circle", shapeStyle(),
+        $(go.Node, "Spot", nodeStyle(),          
+          $(go.Shape, "Rectangle", shapeStyle(),
+            { fill: green, alignment: new go.Spot(0.5, 0), desiredSize: new go.Size(40, 4) }),
+          $(go.Shape, "Rectangle", shapeStyle(),
+            { fill: green, alignment: new go.Spot(0.5, 1.7), desiredSize: new go.Size(30, 4) }),          
+          $(go.Shape, "Rectangle", shapeStyle(),
+            { fill: green, alignment: new go.Spot(0.5, 3), desiredSize: new go.Size(20, 4) }),          
+          /*$(go.Shape, "Circle", shapeStyle(),
             { fill: green }),  // override the default fill (from shapeStyle()) to be green
-          $(go.Shape, "Rectangle", portStyle(true), // the only port
-            { portId: "in", alignment: new go.Spot(0, 0.5) }),
+          */$(go.Shape, "Rectangle", portStyle(true), // the only port
+            { portId: "in", alignment: new go.Spot(0.5, -1) }),
           
           $(go.TextBlock,          
               // background: "lightblue",
@@ -133,17 +139,26 @@ var green = "#C8DA2B";  // 1 or true
         );
 
       var queueTemplate =
-        $(go.Node, "Spot", nodeStyle(),
+        $(go.Node, "Spot", nodeStyle(),         
+          
+           //Fazer Desenho da Queue ******* IMPORTANTE
           $(go.Shape, "Rectangle", shapeStyle(),
-            { fill: red }),  // override the default fill (from shapeStyle()) to be green
+            { fill: red, desiredSize: new go.Size(5, 20) }),
+          $(go.Shape, "Rectangle", shapeStyle(),
+            { fill: red, alignment: new go.Spot(1.8, 0.5), desiredSize: new go.Size(5, 20) }),
+          $(go.Shape, "Rectangle", shapeStyle(),
+            { fill: red, alignment: new go.Spot(3.2, 0.5), desiredSize: new go.Size(5, 20) }),
+          $(go.Shape, "Circle", shapeStyle(),
+            { fill: red, alignment: new go.Spot(5.8, 0.5), desiredSize: new go.Size(30, 30) }),
+
           $(go.Shape, "Rectangle", portStyle(true),  
-            { portId: "in", alignment: new go.Spot(0, 0.5) }),
+            { portId: "in", alignment: new go.Spot(-1, 0.5) }),
           $(go.Shape, "Rectangle", portStyle(false),  
-            { portId: "out", alignment: new go.Spot(1, 0.5) }),
+            { portId: "out", alignment: new go.Spot(9, 0.5) }),
           
           $(go.TextBlock,          
               // background: "lightblue",
-              {editable: true, isMultiline: false },
+              {editable: true, isMultiline: false, alignment: new go.Spot(4.15, 0.5) },
               new go.Binding("text", "value1").makeTwoWay())  // textblock.text = data.key     
         );
 
@@ -267,12 +282,7 @@ var green = "#C8DA2B";  // 1 or true
       var jsonList = JSON.parse(document.getElementById("mySavedModel").value);
       var pythonEdited = document.getElementById('pythonOriginal').value;
       var edited = pythonEdited.split("\n");
-      var line = 34;
-      edited.splice(line,1,"");
-      edited.splice(line+1,1,"");
-      edited.splice(line+2,1,"");
-      edited.splice(line+3,1,"");
-      edited.splice(line+4,1,"");
+      var line = 34;      
       
       // início da parte nova 
       var nodeKey = nodeVal1 = nodeVal2 = "";
@@ -300,18 +310,25 @@ var green = "#C8DA2B";  // 1 or true
     function searchNextNode(jsonList,edited,nodeKey,line){
       for (var i = 0; i < jsonList.linkDataArray.length; i++ ){
         if (jsonList.linkDataArray[i].from == nodeKey && jsonList.linkDataArray[i].to != false ){
-          nodeKey = jsonList.linkDataArray[i].to;
-          console.log(line);
+          nodeKey = jsonList.linkDataArray[i].to;          
           
           pythonWriter(jsonList,edited,nodeKey,line);          
+          console.log(line);
+          //if (jsonList.linkDataArray[i].from == "Queue") {line += 6;}
+          //if (jsonList.linkDataArray[i].from == "Fork") {line += 1;}
+          line += 6;
+          i=0;
         }
-        line += 6;
+        
       } 
     }
 
     function pythonWriter(jsonList,edited,nodeKey,line){
       for (var i = 0; i < jsonList.nodeDataArray.length; i++ ){
         var nodeVal1 = jsonList.nodeDataArray[i].value1;
+        //var nodeVal2 = jsonList.nodeDataArray[i].value2;
+        var nodeVal2 = 1-nodeVal1;
+
         if (jsonList.nodeDataArray[i].key == nodeKey){
           if (jsonList.nodeDataArray[i].category == "Queue"){            
             // insert a queue on python            
@@ -323,20 +340,30 @@ var green = "#C8DA2B";  // 1 or true
             edited.splice(line+5,0,"");
             
             
-            console.log(line);
+            console.log("Queue");
+            //line -= 5;
             //searchNextNode(jsonList,edited,nodeKey,line);
+          
           }
           else if (jsonList.nodeDataArray[i].category == "Fork"){
             // insert a fork on python
-            edited.splice(line+1,0,"  Fork");
-            var nodeVal2 = jsonList.nodeDataArray[i].value2;
-            nodeVal2 = 1-nodeVal1;
+            edited.splice(line,0,"  .");
+            edited.splice(line+1,0,"  .");
+            edited.splice(line+2,0,"  Fork");
+            edited.splice(line+3,0,"  .");
+            edited.splice(line+4,0,"  .");
+            edited.splice(line+5,0,"  ");
+            //var nodeVal2 = jsonList.nodeDataArray[i].value2;
+            //nodeVal2 = 1-nodeVal1;  
+
+            //line += 2;         
             //searchNextNode(jsonList,edited,nodeKey,line);
           }
           else if (jsonList.nodeDataArray[i].category == "Output"){
             // insert an output on python
           }
         }
+
       }
     }
 
@@ -523,6 +550,17 @@ var green = "#C8DA2B";  // 1 or true
       //add Output
 
     }
+
+    
+***** teste FORK ******
+
+var rand = random.random()
+if (rand <= value1) 
+  {queue 1}
+else 
+  (queue 2)
+
+
     
 */
 
